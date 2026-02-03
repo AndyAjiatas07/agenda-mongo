@@ -12,6 +12,11 @@ import {
   validateContactById,
 } from '../../middlewares/contact-validators.js';
 
+import {
+  cleanupUploadedFileOnFinish
+} from '../../middlewares/delete-file-on-error.js';
+
+
 import { uploadContactPhoto } from '../../middlewares/file-uploader.js';
 
 const router = Router();
@@ -23,6 +28,7 @@ router.get('/', getContacts);
 router.post(
   '/',
   uploadContactPhoto.single('profilePhoto'),
+  cleanupUploadedFileOnFinish,
   validateCreateContact,
   createContact
 );
@@ -31,6 +37,7 @@ router.post(
 router.put(
   '/:id',
   uploadContactPhoto.single('profilePhoto'),
+  cleanupUploadedFileOnFinish,
   validateUpdateContact,
   updateContact
 );
